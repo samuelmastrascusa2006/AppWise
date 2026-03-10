@@ -1,0 +1,7 @@
+{
+  "name": "MoneyWiseApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
