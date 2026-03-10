@@ -1,0 +1,18 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ transaccion ? 'Editar' : 'Nueva' }} Transacción</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-transaction-form
+    [transaccion]="transaccion"
+    (onSave)="guardar($event)"
+    (onCancel)="cancelar()">
+  </app-transaction-form>
+</ion-content>

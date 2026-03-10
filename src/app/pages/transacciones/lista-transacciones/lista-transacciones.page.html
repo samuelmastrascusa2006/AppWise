@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Mis Transacciones</ion-title>
+  </ion-toolbar>
+  <app-filter-bar
+    [tipoSeleccionado]="filtroTipo$ | async"
+    [categoriaSeleccionada]="filtroCategoria$ | async"
+    (onTipoChange)="filtroTipo$.next($event)"
+    (onCategoriaChange)="filtroCategoria$.next($event)"
+    (onBuscarChange)="filtroTexto$.next($event)">
+  </app-filter-bar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="transaccionesFiltradas$ | async as transacciones; else loading">
+
+    <app-empty-state
+      *ngIf="transacciones.length === 0"
+      mensaje="No se encontraron transacciones."
+      icono="search-outline"
+      accion="Limpiar filtros"
+      (onAccion)="limpiarFiltros()">
+    </app-empty-state>
+
+    <ion-list *ngIf="transacciones.length > 0">
+      <app-transaction-item
+        *ngFor="let t of transacciones"
+        [transaccion]="t"
+        (onClick)="verDetalle(t.id)">
+      </app-transaction-item>
+    </ion-list>
+
+  </ng-container>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="logout()" color="danger" size="small">
+      <ion-icon name="log-out-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ng-template #loading>
+    <div class="ion-text-center ion-padding">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
+</ion-content>

@@ -1,0 +1,21 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/transacciones"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-transaction-detail
+    *ngIf="transaccion"
+    [transaccion]="transaccion"
+    (onEdit)="editar()"
+    (onDelete)="confirmarEliminacion()">
+  </app-transaction-detail>
+
+  <div *ngIf="!transaccion" class="ion-text-center ion-padding">
+    <p>No se encontró la transacción.</p>
+  </div>
+</ion-content>
