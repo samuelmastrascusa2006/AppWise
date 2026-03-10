@@ -1,0 +1,106 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      Hola, {{ (user$ | async)?.name ? $any(user$ | async).name.split(' ')[0] : 'Usuario' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="resumen$ | async as resumen; else loading">
+
+    <div class="summary-cards">
+      <app-dashboard-card
+        titulo="Saldo Actual"
+        [monto]="resumen.saldo"
+        tipo="saldo"
+        icono="wallet-outline">
+      </app-dashboard-card>
+
+      <ion-row>
+        <ion-col size="6">
+          <app-dashboard-card
+            titulo="Ingresos"
+            [monto]="resumen.totalIngresos"
+            tipo="ingreso"
+            icono="arrow-up-circle-outline">
+          </app-dashboard-card>
+        </ion-col>
+        <ion-col size="6">
+          <app-dashboard-card
+            titulo="Gastos"
+            [monto]="resumen.totalGastos"
+            tipo="gasto"
+            icono="arrow-down-circle-outline">
+          </app-dashboard-card>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div class="categories-section ion-margin-top">
+      <ion-list-header>
+        <ion-label>Gastos por Categoría</ion-label>
+      </ion-list-header>
+
+      <app-empty-state
+        *ngIf="resumen.gastosPorCategoria.length === 0"
+        mensaje="Aún no tienes gastos registrados."
+        icono="pie-chart-outline">
+      </app-empty-state>
+
+      <div class="ion-padding" *ngIf="resumen.gastosPorCategoria.length > 0">
+        <app-progress-bar-category
+          *ngFor="let cat of resumen.gastosPorCategoria"
+          [categoria]="cat.categoria"
+          [monto]="cat.monto"
+          [porcentaje]="cat.porcentaje"
+          [color]="cat.color"
+          tipo="gasto">
+        </app-progress-bar-category>
+      </div>
+    </div>
+
+    <div class="categories-section ion-margin-top">
+      <ion-list-header>
+        <ion-label>Ingresos por Categoría</ion-label>
+      </ion-list-header>
+
+      <app-empty-state
+        *ngIf="resumen.ingresosPorCategoria.length === 0"
+        mensaje="Aún no tienes ingresos registrados."
+        icono="pie-chart-outline">
+      </app-empty-state>
+
+      <div class="ion-padding" *ngIf="resumen.ingresosPorCategoria.length > 0">
+        <app-progress-bar-category
+          *ngFor="let cat of resumen.ingresosPorCategoria"
+          [categoria]="cat.categoria"
+          [monto]="cat.monto"
+          [porcentaje]="cat.porcentaje"
+          [color]="cat.color"
+          tipo="ingreso">
+        </app-progress-bar-category>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentModal()" color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="logout()" color="danger" size="small">
+      <ion-icon name="log-out-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ng-template #loading>
+    <div class="ion-text-center ion-padding">
+      <ion-spinner></ion-spinner>
+      <p>Cargando tus finanzas...</p>
+    </div>
+  </ng-template>
+</ion-content>

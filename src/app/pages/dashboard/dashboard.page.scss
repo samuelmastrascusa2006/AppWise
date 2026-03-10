@@ -1,0 +1,35 @@
+ion-toolbar {
+  --background: var(--app-background);
+  --color: var(--app-text-primary);
+}
+
+ion-title {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--app-text-primary);
+}
+
+.summary-cards {
+  margin-bottom: 20px;
+}
+
+ion-list-header {
+  --padding-start: 0;
+  margin-bottom: 10px;
+  --background: transparent;
+}
+
+ion-list-header ion-label {
+  font-weight: bold;
+  color: var(--app-text-primary);
+  font-size: 1.1rem;
+}
+
+@media (min-width: 768px) {
+  .summary-cards,
+  .categories-section {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
